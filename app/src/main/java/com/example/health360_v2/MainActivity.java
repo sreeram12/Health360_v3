@@ -1,13 +1,16 @@
 package com.example.health360_v2;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
                 openRecordActivity();
             }
         });
+
+
     }
 
     public void openInputActivity() {
@@ -42,4 +47,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RecordActivity.class);
         startActivity(intent);
     }
+
 }

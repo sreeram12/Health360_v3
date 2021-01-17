@@ -1,5 +1,7 @@
 package com.example.health360_v2;
 
+import com.example.health360_tools.TextNutrition;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import java.util.Arrays;
 
 public class InputActivity extends AppCompatActivity implements ImageToText.ImageToTextCompleteListener {
 
@@ -44,7 +48,8 @@ public class InputActivity extends AppCompatActivity implements ImageToText.Imag
 
     @Override
     public void onImageToTextComplete(String s) {
-        Log.d(TAG, "Decoded text: " + s);
+        Log.d(TAG, s);
+        Log.d(TAG, new TextNutrition(s.split("\n")).toString());
     }
 
 }

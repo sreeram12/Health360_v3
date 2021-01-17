@@ -1,7 +1,5 @@
 package com.example.health360_tools;
 
-import java.util.List;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +18,7 @@ public class TextNutrition extends Nutrition {
 
     private boolean putCaloriesIfNum(String line) {
         if (line.trim().matches("^(\\d|\\.)+$")) {
-            info.put("calories", Double.parseDouble(line));
+            calories = Double.parseDouble(line);
             return true;
         }
 
@@ -28,9 +26,13 @@ public class TextNutrition extends Nutrition {
     }
 
     public TextNutrition(String[] lines) {
-        info = new TreeMap<>();
-
-        String[] fieldArray = fields.split("\\|");
+        calories = -1;
+        fat = -1;
+        carbohydrates = -1;
+        fiber = -1;
+        protein = -1;
+        sodium = -1;
+        servingSize = null;
 
         // Search for calories
         for (int i = 0; i < lines.length; i++) {
@@ -85,11 +87,22 @@ public class TextNutrition extends Nutrition {
 
                 // Match field
                 String parsedField = matcher.group(FIELD_GROUP).trim().toLowerCase();
-                for (String field : fieldArray) {
-                    if (fuzzyEquals(parsedField, field)) {
-                        info.put(field, value);
+                switch (parsedField) {
+                    case "total fat":
+                        fat = value;
                         break;
-                    }
+                    case "total carbohydrate":
+                        carbohydrates = value;
+                        break;
+                    case "dietary fiber":
+                        fiber = value;
+                        break;
+                    case "protein":
+                        protein = value;
+                        break;
+                    case "sodium":
+                        sodium = value;
+                        break;
                 }
             }
         }

@@ -7,6 +7,32 @@
     android:background="#1E1E1E"
     tools:context=".RecordActivity">
 
+    <TextView
+        android:id="@+id/calorie_view"
+        android:layout_width="209dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="552dp"
+        android:text="Calories"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/date_view"
+        android:layout_width="209dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="488dp"
+        android:text="Date"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/enter_date"
         android:layout_width="263dp"
@@ -45,7 +71,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/record_button"
+        android:id="@+id/query_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="428dp"
@@ -55,6 +81,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/meal_view"
+        android:layout_width="209dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="424dp"
+        android:text="Meal"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

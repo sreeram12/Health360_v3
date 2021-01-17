@@ -4,7 +4,7 @@ public class MealValues {
 
 
     private Double weight, calories, carbs, fiber, protein, sodium;
-    private String current_meal;
+    private String current_meal, currentDate;
 
     public MealValues() {
     }
@@ -63,5 +63,13 @@ public class MealValues {
 
     public void setCurrent_meal(String current_meal) {
         this.current_meal = current_meal;
+    }
+
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        this.currentDate = currentDate;
     }
 }

@@ -2,7 +2,6 @@ package com.example.health360_v2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +23,7 @@ public class InputActivity extends AppCompatActivity {
     // Declarations for DB inserting
     EditText weight, calories, carbs, fiber, protein, sodium;
     Spinner choose_meal;
-    String current_meal;
+    String current_meal, currentDate;
     Button submitbtn;
     DatabaseReference reff;
     MealValues mealvalues;
@@ -34,6 +33,16 @@ public class InputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.input_activity);
+
+        // activity switch when clicking "USE CAMERA" button
+        Button cam_activity = (Button) findViewById(R.id.cam_button);
+        cam_activity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openCameraActivity();
+            }
+        });
+
         // Show Toast message confirmation of firebase db connection
         Toast.makeText(InputActivity.this, "Firebase Connection: Success", Toast.LENGTH_LONG).show();
 
@@ -49,6 +58,8 @@ public class InputActivity extends AppCompatActivity {
 
             }
         });
+
+
         // CODE FOR DB INSERTION BEGINS
         weight = (EditText)findViewById(R.id.enter_weight);
         calories = (EditText)findViewById(R.id.enter_calories);
@@ -57,6 +68,7 @@ public class InputActivity extends AppCompatActivity {
         protein = (EditText)findViewById(R.id.enter_protein);
         sodium = (EditText)findViewById(R.id.enter_sodium);
         submitbtn = (Button)findViewById(R.id.submit_button);
+        currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         mealvalues = new MealValues();
         reff = FirebaseDatabase.getInstance().getReference().child("MealValues");
 
@@ -76,27 +88,17 @@ public class InputActivity extends AppCompatActivity {
                 mealvalues.setProtein(p);
                 mealvalues.setSodium(sod);
                 mealvalues.setCurrent_meal(current_meal.trim());
-                String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-                reff.child(currentDate).setValue(mealvalues);
-                //Toast.makeText(InputActivity.this, "data inserted successfully", Toast.LENGTH_LONG).show();
+                mealvalues.setCurrentDate(currentDate);
+                reff.push().setValue(mealvalues);
+                Toast.makeText(InputActivity.this, "data inserted successfully", Toast.LENGTH_LONG).show();
 
             }
         });
 
-//        // activity reopen when clicking "SUBMIT" button
-//        @SuppressLint("CutPasteId") Button btnsubmit = (Button) findViewById(R.id.submit_button);
-//        btnsubmit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                reopenInputActivity();
-//            }
-//        });
-
     }
 
-//    // activity reopen when clicking "SUBMIT" button
-//    public void reopenInputActivity() {
-//        Intent intent = new Intent(this, InputActivity.class);
-//        startActivity(intent);
-//    }
+    public void openCameraActivity() {
+        Intent intent = new Intent(this, MainCamera.class);
+        startActivity(intent);
+    }
 }

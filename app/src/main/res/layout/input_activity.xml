@@ -188,8 +188,8 @@
         android:padding="12dp"
         android:text="@string/submit" />
 
-    <EditText
-        android:id="@+id/enter_manual"
+    <TextView
+        android:id="@+id/food_record_title"
         android:layout_width="221dp"
         android:layout_height="34dp"
         android:layout_alignParentStart="true"
@@ -202,7 +202,7 @@
         android:backgroundTint="#00CAC111"
         android:ems="10"
         android:fontFamily="@font/dosis_semibold"
-        android:inputType="textPersonName"
+        android:paddingTop="7dp"
         android:text="or enter manually below"
         android:textAlignment="center"
         android:textColor="#FFFFFF" />

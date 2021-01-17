@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -72,14 +74,12 @@ public class ImageToText {
     Log.d(TAG, "Camera permission: " + context.checkSelfPermission(Manifest.permission.CAMERA));
     Log.d(TAG, "Read storage:  " + context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE));
     Log.d(TAG, "Write storage: " + context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE));
+
+
   }
 
   public void setOnImageToTextComplete(ImageToTextCompleteListener listener) {
     textAvailableListener = listener;
-  }
-
-  public String getImagePath() {
-    return imagePath;
   }
 
   public void start() {
@@ -159,6 +159,26 @@ public class ImageToText {
         bitmap = BitmapFactory.decodeFile(imagePath);
         //cleanup();
 
+        try {
+          ExifInterface exif = new ExifInterface(imagePath);
+          int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+          Log.d(TAG, "Detected image orientation as " + orientation);
+          int rotate;
+          switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_270: rotate = 270; break;
+            case ExifInterface.ORIENTATION_ROTATE_180: rotate = 180; break;
+            case ExifInterface.ORIENTATION_ROTATE_90: rotate = 90; break;
+            default: rotate = 0;
+          }
+
+          Matrix matrix = new Matrix();
+          matrix.postRotate(rotate);
+          bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        } catch (Exception e) {
+          Log.d(TAG, "Unable to open exit interface to image file");
+        }
+
         // adjust the resolution of the bitmap
         if (bitmap.getWidth() > 1000) {
           double scale = 1000.0 / bitmap.getWidth();
@@ -195,6 +215,7 @@ public class ImageToText {
           @Override
           public void onSuccess(FirebaseVisionText texts) {
             imageText = texts.getText();
+            Log.d(TAG, "Got text successfully\n"  + imageText);
             textAvailableListener.onImageToTextComplete(imageText);
           }
         })
